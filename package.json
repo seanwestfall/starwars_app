@@ -1,0 +1,17 @@
+{
+  "name": "wpromote_starwars_app",
+  "version": "1.0.0",
+  "description": "Wpromote StarWars App",
+  "main": "wpromote_starwars_devel.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.3"
+  },
+  "engines": {
+    "node": "7.9.0"
+  }
+}
