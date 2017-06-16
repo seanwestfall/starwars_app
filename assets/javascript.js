@@ -18,37 +18,37 @@ $( document ).ready(function() {
 
 		switch(selectVal) {
 			case '1':
-				$.get( "http://swapi.co/api/people/?search="+searchParameter+"&format=json&page="+currentPage, function( data ) {
+				$.get( "https://swapi.co/api/people/?search="+searchParameter+"&format=json&page="+currentPage, function( data ) {
 				  setheader(Object.keys(data.results[0]));
 				  displayData(Object.keys(data.results[0]), data);
 				});
 				break;
 			case '2':
-				$.get( "http://swapi.co/api/films/?search="+searchParameter+"&format=json&page="+currentPage, function( data ) {
+				$.get( "https://swapi.co/api/films/?search="+searchParameter+"&format=json&page="+currentPage, function( data ) {
 				  setheader(Object.keys(data.results[0]));
 				  displayData(Object.keys(data.results[0]), data);
 				});
 				break;
 			case '3':
-				$.get( "http://swapi.co/api/starships/?search="+searchParameter+"&format=json&page="+currentPage, function( data ) {
+				$.get( "https://swapi.co/api/starships/?search="+searchParameter+"&format=json&page="+currentPage, function( data ) {
 				  setheader(Object.keys(data.results[0]));
 				  displayData(Object.keys(data.results[0]), data);
 				});
 				break;
 			case '4':
-				$.get( "http://swapi.co/api/vehicles/?search="+searchParameter+"&format=json&page="+currentPage, function( data ) {
+				$.get( "https://swapi.co/api/vehicles/?search="+searchParameter+"&format=json&page="+currentPage, function( data ) {
 				  setheader(Object.keys(data.results[0]));
 				  displayData(Object.keys(data.results[0]), data);
 				});
 				break;
 			case '5':
-				$.get( "http://swapi.co/api/species/?search="+searchParameter+"&format=json&page="+currentPage, function( data ) {
+				$.get( "https://swapi.co/api/species/?search="+searchParameter+"&format=json&page="+currentPage, function( data ) {
 				  setheader(Object.keys(data.results[0]));
 				  displayData(Object.keys(data.results[0]), data);
 				});
 				break;
 			case '6':
-				$.get( "http://swapi.co/api/planets/?search="+searchParameter+"&format=json&page="+currentPage, function( data ) {
+				$.get( "https://swapi.co/api/planets/?search="+searchParameter+"&format=json&page="+currentPage, function( data ) {
 				  setheader(Object.keys(data.results[0]));
 				  displayData(Object.keys(data.results[0]), data);
 				});
