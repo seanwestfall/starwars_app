@@ -83,6 +83,7 @@ $( document ).ready(function() {
 		$('#table').empty();
 		$('#table').append('<thead><tr></tr></thead>');
 		$thead = $('#table > thead > tr:first');
+		$thead.append("<th>" + "" + "</th>");
 		headers.forEach(function(val) {
 			//var row = header.insertRow(0);
 			//var cell = row.insertCell(0);
@@ -96,6 +97,7 @@ $( document ).ready(function() {
 		data.results.forEach(function(val) {
 			$('#table > tbody').append('<tr></tr>');
 			$tr = $('#table > tbody > tr:last');
+			$tr.append("<td class='saveBtn'><button type='submit' id='save' class='submit btn btn-primary' style='float:left'>Save</button></td>");
 			headers.forEach(function(header) {
 					$tr.append("<td class="+ header+ ">" + val[header] + "</td>");
 			});
