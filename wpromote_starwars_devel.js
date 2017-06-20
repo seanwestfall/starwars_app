@@ -10,6 +10,7 @@ var mongoDb; // global mongoDb variable
 
 // set assets folder
 app.use(express.static('assets'));
+app.use(express.static('dist'));
 
 // For POST request parsing
 app.use(bodyParser.json()); // support json encoded bodies

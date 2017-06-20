@@ -1,3 +1,32 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './app.jsx';
+import {Search,Carousel,Favorites} from './app.jsx';
+import { HashRouter, BrowserRouter, Switch, Link, Route } from 'react-router-dom';
+
+ReactDOM.render((
+  <HashRouter>
+    <App />
+  </HashRouter>
+), document.getElementById('app'))
+
+//ReactDOM.render((
+     //<nav>
+       //<ul>
+         //<li><Link to='/'>Search</Link></li>
+         //<li><Link to='/carousel'>Carousel</Link></li>
+         //<li><Link to='/favorites'>Favorites</Link></li>
+       //</ul>
+     //</nav>
+   //<BrowserRouter> 
+     //<Switch>
+       //<Route exact path='/' component={Search}/>
+       //<Route path='/carousel' component={Carousel}/>
+       //<Route path='/favorites' component={Favorites}/>
+     //</Switch>
+   //</BrowserRouter>
+//), document.getElementById('app'));
+
 $( document ).ready(function() {
 	var currentPage = 1;
 	var searchParameter;
