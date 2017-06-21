@@ -10,23 +10,6 @@ ReactDOM.render((
   </HashRouter>
 ), document.getElementById('app'))
 
-//ReactDOM.render((
-     //<nav>
-       //<ul>
-         //<li><Link to='/'>Search</Link></li>
-         //<li><Link to='/carousel'>Carousel</Link></li>
-         //<li><Link to='/favorites'>Favorites</Link></li>
-       //</ul>
-     //</nav>
-   //<BrowserRouter> 
-     //<Switch>
-       //<Route exact path='/' component={Search}/>
-       //<Route path='/carousel' component={Carousel}/>
-       //<Route path='/favorites' component={Favorites}/>
-     //</Switch>
-   //</BrowserRouter>
-//), document.getElementById('app'));
-
 $( document ).ready(function() {
 	var currentPage = 1;
 	var searchParameter;
@@ -98,7 +81,9 @@ $( document ).ready(function() {
 			default:
 		}
 	}
-	$( '#submit' ).on('click', submitClick);
+	//$( '#submit' ).on('click', submitClick);
+
+	// $( 'body' ).on('click', '#submit', submitClick);
 
 	$( '#next' ).on('click', function() {
 		currentPage++;
@@ -125,14 +110,6 @@ $( document ).ready(function() {
 			console.log(data);
 		});
 	});
-
-
-	function returnJson(cat) {
-		$.get( "http://swapi.co/api/"+cat+"/?format=json", function( data ) {
-			setheader(["name","climate","diameter","gravity","population"]);
-			displayData(["name","climate","diameter","gravity","population"], data);
-		});
-	}
 
 	function setheader(headers) {
 		$('#table').prev().remove();

@@ -2,7 +2,7 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-   value: true
+  value: true
 });
 exports.Favorites = exports.Carousel = exports.Search = undefined;
 
@@ -11,6 +11,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _reactRouterDom = require('react-router-dom');
 
@@ -23,169 +27,326 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Main = function Main() {
-   return _react2.default.createElement(
-      'main',
+  return _react2.default.createElement(
+    'main',
+    null,
+    _react2.default.createElement(
+      _reactRouterDom.Switch,
       null,
-      _react2.default.createElement(
-         _reactRouterDom.Switch,
-         null,
-         _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: Search }),
-         _react2.default.createElement(_reactRouterDom.Route, { path: '/carousel', component: Carousel }),
-         _react2.default.createElement(_reactRouterDom.Route, { path: '/favorites', component: Favorites })
-      )
-   );
+      _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: Search }),
+      _react2.default.createElement(_reactRouterDom.Route, { path: '/carousel', component: Carousel }),
+      _react2.default.createElement(_reactRouterDom.Route, { path: '/favorites', component: Favorites })
+    )
+  );
 };
 
 var Header = function Header() {
-   return _react2.default.createElement(
-      'header',
-      null,
+  return _react2.default.createElement(
+    'header',
+    null,
+    _react2.default.createElement(
+      'nav',
+      { className: 'container' },
       _react2.default.createElement(
-         'nav',
-         { className: 'container' },
-         _react2.default.createElement(
-            'ul',
-            { className: 'nav nav-tabs' },
-            _react2.default.createElement(
-               'li',
-               { className: 'active' },
-               _react2.default.createElement(
-                  _reactRouterDom.Link,
-                  { to: '/' },
-                  'Search'
-               )
-            ),
-            _react2.default.createElement(
-               'li',
-               null,
-               _react2.default.createElement(
-                  _reactRouterDom.Link,
-                  { to: '/Carousel' },
-                  'Carousel'
-               )
-            ),
-            _react2.default.createElement(
-               'li',
-               null,
-               _react2.default.createElement(
-                  _reactRouterDom.Link,
-                  { to: '/Favorites' },
-                  'Favorites'
-               )
-            )
-         )
+        'ul',
+        { className: 'nav nav-tabs' },
+        _react2.default.createElement(
+          'li',
+          { className: 'active' },
+          _react2.default.createElement(
+            _reactRouterDom.Link,
+            { to: '/' },
+            'Search'
+          )
+        ),
+        _react2.default.createElement(
+          'li',
+          null,
+          _react2.default.createElement(
+            _reactRouterDom.Link,
+            { to: '/Carousel' },
+            'Carousel'
+          )
+        ),
+        _react2.default.createElement(
+          'li',
+          null,
+          _react2.default.createElement(
+            _reactRouterDom.Link,
+            { to: '/Favorites' },
+            'Favorites'
+          )
+        )
       )
-   );
+    )
+  );
 };
 
 var App = function (_React$Component) {
-   _inherits(App, _React$Component);
+  _inherits(App, _React$Component);
 
-   function App() {
-      _classCallCheck(this, App);
+  function App() {
+    _classCallCheck(this, App);
 
-      return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
-   }
+    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
+  }
 
-   _createClass(App, [{
-      key: 'render',
-      value: function render() {
-         return _react2.default.createElement(
-            'div',
-            null,
-            _react2.default.createElement(Header, null),
-            _react2.default.createElement(Main, null)
-         );
-      }
-   }]);
+  _createClass(App, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(Header, null),
+        _react2.default.createElement(Main, null)
+      );
+    }
+  }]);
 
-   return App;
+  return App;
 }(_react2.default.Component);
 
 exports.default = App;
 
 var Search = exports.Search = function (_React$Component2) {
-   _inherits(Search, _React$Component2);
+  _inherits(Search, _React$Component2);
 
-   function Search() {
-      _classCallCheck(this, Search);
+  function Search(props) {
+    _classCallCheck(this, Search);
 
-      return _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).apply(this, arguments));
-   }
+    var _this2 = _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this, props));
 
-   _createClass(Search, [{
-      key: 'render',
-      value: function render() {
-         return _react2.default.createElement(
-            'div',
+    _this2.currentPage = 1;
+    _this2.searchParameter = "";
+    _this2.currentData;
+    _this2.state = { value: 'people' };
+
+    _this2.headerProps;
+    _this2.bodyProps;
+
+    _this2.handleChange = _this2.handleChange.bind(_this2);
+    _this2.submitClick = _this2.submitClick.bind(_this2);
+
+    _this2.prevClick = _this2.prevClick.bind(_this2);
+    _this2.nextClick = _this2.nextClick.bind(_this2);
+    return _this2;
+  }
+
+  _createClass(Search, [{
+    key: 'submitClick',
+    value: function submitClick(e) {
+      e.preventDefault();
+      var self = this;
+
+      $.get("https://swapi.co/api/" + this.state.value + "/?search=" + this.searchParameter + "&format=json&page=" + this.currentPage, function (data) {
+        //setheader(Object.keys(data.results[0]));
+        //displayData(Object.keys(data.results[0]), data);
+
+        //currentData = data.results;
+        self.headerProps = Object.keys(data.results[0]).map(function (key) {
+          return _react2.default.createElement(
+            'th',
             null,
-            _react2.default.createElement(
-               'h1',
-               null,
-               'Search...'
-            )
-         );
-      }
-   }]);
+            key
+          );
+        });
 
-   return Search;
+        console.log(data);
+
+        self.bodyProps = data.results.map(function (result) {
+          return _react2.default.createElement(
+            'tr',
+            null,
+            Object.keys(result).map(function (key) {
+              return _react2.default.createElement(
+                'td',
+                null,
+                result[key]
+              );
+            })
+          );
+        });
+        console.log(self.bodyProps);
+
+        self.currentData = data.results;
+        //console.log(data);
+
+        self.setState({ value: 'people' });
+      });
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(e) {
+      this.setState({ value: e.target.value });
+    }
+  }, {
+    key: 'prevClick',
+    value: function prevClick(e) {
+      e.preventDefault();
+    }
+  }, {
+    key: 'nextClick',
+    value: function nextClick(e) {
+      e.preventDefault();
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'container' },
+        _react2.default.createElement(
+          'div',
+          { className: 'row' },
+          _react2.default.createElement(
+            'div',
+            { className: 'col-md-2 col-md-offset-5' },
+            _react2.default.createElement(
+              'h1',
+              null,
+              'Star Wars'
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'form-group row' },
+              _react2.default.createElement(
+                'label',
+                { 'for': 'example-text-input', className: 'col-2 col-form-label' },
+                'Search'
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'col-10' },
+                _react2.default.createElement('input', { className: 'form-control', type: 'text', value: '', id: 'search' })
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'form-group row' },
+              _react2.default.createElement(
+                'select',
+                { value: this.state.value, className: 'custom-select', onChange: this.handleChange },
+                _react2.default.createElement(
+                  'option',
+                  { value: 'people' },
+                  'People'
+                ),
+                _react2.default.createElement(
+                  'option',
+                  { value: 'films' },
+                  'Films'
+                ),
+                _react2.default.createElement(
+                  'option',
+                  { value: 'starships' },
+                  'Starships'
+                ),
+                _react2.default.createElement(
+                  'option',
+                  { value: 'vehicles' },
+                  'Vehicles'
+                ),
+                _react2.default.createElement(
+                  'option',
+                  { value: 'species' },
+                  'Species'
+                ),
+                _react2.default.createElement(
+                  'option',
+                  { value: 'planets' },
+                  'Planets'
+                )
+              )
+            ),
+            _react2.default.createElement(
+              'button',
+              { type: 'submit', id: 'submit', className: 'submit btn btn-primary', onClick: this.submitClick },
+              'Submit'
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'row' },
+          _react2.default.createElement(
+            'div',
+            { className: 'col-md-12' },
+            _react2.default.createElement(
+              'table',
+              { className: 'table', id: 'table' },
+              _react2.default.createElement(
+                'thead',
+                null,
+                _react2.default.createElement(
+                  'tr',
+                  null,
+                  this.headerProps
+                )
+              ),
+              _react2.default.createElement(
+                'tbody',
+                null,
+                this.bodyProps
+              )
+            ),
+            _react2.default.createElement(
+              'button',
+              { type: 'submit', id: 'prev', className: 'submit btn btn-primary', style: { float: 'left' } },
+              'Previous Page'
+            ),
+            _react2.default.createElement(
+              'button',
+              { type: 'submit', id: 'next', className: 'submit btn btn-primary', style: { float: 'right' } },
+              'Next Page'
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return Search;
 }(_react2.default.Component);
 
 var Carousel = exports.Carousel = function (_React$Component3) {
-   _inherits(Carousel, _React$Component3);
+  _inherits(Carousel, _React$Component3);
 
-   function Carousel() {
-      _classCallCheck(this, Carousel);
+  function Carousel() {
+    _classCallCheck(this, Carousel);
 
-      return _possibleConstructorReturn(this, (Carousel.__proto__ || Object.getPrototypeOf(Carousel)).apply(this, arguments));
-   }
+    return _possibleConstructorReturn(this, (Carousel.__proto__ || Object.getPrototypeOf(Carousel)).apply(this, arguments));
+  }
 
-   _createClass(Carousel, [{
-      key: 'render',
-      value: function render() {
-         return _react2.default.createElement(
-            'div',
-            null,
-            _react2.default.createElement(
-               'h1',
-               null,
-               'Carousel...'
-            )
-         );
-      }
-   }]);
+  _createClass(Carousel, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement('div', null);
+    }
+  }]);
 
-   return Carousel;
+  return Carousel;
 }(_react2.default.Component);
 
 var Favorites = exports.Favorites = function (_React$Component4) {
-   _inherits(Favorites, _React$Component4);
+  _inherits(Favorites, _React$Component4);
 
-   function Favorites() {
-      _classCallCheck(this, Favorites);
+  function Favorites() {
+    _classCallCheck(this, Favorites);
 
-      return _possibleConstructorReturn(this, (Favorites.__proto__ || Object.getPrototypeOf(Favorites)).apply(this, arguments));
-   }
+    return _possibleConstructorReturn(this, (Favorites.__proto__ || Object.getPrototypeOf(Favorites)).apply(this, arguments));
+  }
 
-   _createClass(Favorites, [{
-      key: 'render',
-      value: function render() {
-         return _react2.default.createElement(
-            'div',
-            null,
-            _react2.default.createElement(
-               'h1',
-               null,
-               'Favorites...'
-            )
-         );
-      }
-   }]);
+  _createClass(Favorites, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement('div', null);
+    }
+  }]);
 
-   return Favorites;
+  return Favorites;
 }(_react2.default.Component);
 
-},{"react":222,"react-router-dom":182}],2:[function(require,module,exports){
+},{"react":222,"react-dom":44,"react-router-dom":182}],2:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -209,23 +370,6 @@ _reactDom2.default.render(_react2.default.createElement(
 	null,
 	_react2.default.createElement(_app2.default, null)
 ), document.getElementById('app'));
-
-//ReactDOM.render((
-//<nav>
-//<ul>
-//<li><Link to='/'>Search</Link></li>
-//<li><Link to='/carousel'>Carousel</Link></li>
-//<li><Link to='/favorites'>Favorites</Link></li>
-//</ul>
-//</nav>
-//<BrowserRouter> 
-//<Switch>
-//<Route exact path='/' component={Search}/>
-//<Route path='/carousel' component={Carousel}/>
-//<Route path='/favorites' component={Favorites}/>
-//</Switch>
-//</BrowserRouter>
-//), document.getElementById('app'));
 
 $(document).ready(function () {
 	var currentPage = 1;
@@ -298,7 +442,9 @@ $(document).ready(function () {
 			default:
 		}
 	}
-	$('#submit').on('click', submitClick);
+	//$( '#submit' ).on('click', submitClick);
+
+	// $( 'body' ).on('click', '#submit', submitClick);
 
 	$('#next').on('click', function () {
 		currentPage++;
@@ -324,13 +470,6 @@ $(document).ready(function () {
 			console.log(data);
 		});
 	});
-
-	function returnJson(cat) {
-		$.get("http://swapi.co/api/" + cat + "/?format=json", function (data) {
-			setheader(["name", "climate", "diameter", "gravity", "population"]);
-			displayData(["name", "climate", "diameter", "gravity", "population"], data);
-		});
-	}
 
 	function setheader(headers) {
 		$('#table').prev().remove();
