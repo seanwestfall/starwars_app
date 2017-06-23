@@ -564,13 +564,8 @@ var FavoritesTable = function (_React$Component5) {
     _this5.body = [];
     var colspan = props.header.length;
     var style = { width: '100%' };
-    //props.body.forEach(function(result, index) {
-    //   self.body.push(<tr><td><button type={'button'} id={result['_id']} index={index} className={'delete btn btn-primary'} onClick={self.deleteClick}>{'Delete'}</button></td>{Object.keys(result).map((key) => <td>{result[key]}</td>)}</tr>);
-    //   self.body.push(<tr><td>Notes:<button type={'button'} id={result['_id']} className={'save btn btn-primary'} onClick={self.saveClick}>{'Save'}</button></td><td colSpan={colspan}><textarea style={{width: '100%'}}></textarea></td></tr>);
-    //});
-
-    _this5.body = props.body.map(function (result, index) {
-      return _react2.default.createElement(
+    props.body.forEach(function (result, index) {
+      self.body.push(_react2.default.createElement(
         'tr',
         null,
         _react2.default.createElement(
@@ -578,7 +573,7 @@ var FavoritesTable = function (_React$Component5) {
           null,
           _react2.default.createElement(
             'button',
-            { type: 'button', id: result['_id'], index: index, className: 'delete btn btn-primary', onClick: _this5.deleteClick },
+            { type: 'button', id: result['_id'], index: index, className: 'delete btn btn-primary', onClick: self.deleteClick },
             'Delete'
           )
         ),
@@ -589,8 +584,31 @@ var FavoritesTable = function (_React$Component5) {
             result[key]
           );
         })
-      );
+      ));
+      self.body.push(_react2.default.createElement(
+        'tr',
+        null,
+        _react2.default.createElement(
+          'td',
+          null,
+          'Notes:',
+          _react2.default.createElement(
+            'button',
+            { type: 'button', id: result['_id'], className: 'save btn btn-primary', onClick: self.saveClick },
+            'Save'
+          )
+        ),
+        _react2.default.createElement(
+          'td',
+          { colSpan: colspan },
+          _react2.default.createElement('textarea', { style: { width: '100%' } })
+        )
+      ));
     });
+
+    //this.body = props.body.map((result, index) =>
+    //   <tr><td><button type={'button'} id={result['_id']} index={index} className={'delete btn btn-primary'} onClick={this.deleteClick}>{'Delete'}</button></td>{Object.keys(result).map((key) => <td>{result[key]}</td>)}</tr>
+    //);
 
     _this5.state = {
       body: _this5.body,

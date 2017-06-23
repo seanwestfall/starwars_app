@@ -292,14 +292,14 @@ class FavoritesTable extends React.Component {
     this.body = [];
     var colspan = props.header.length;
     var style = {width: '100%'};
-    //props.body.forEach(function(result, index) {
-    //   self.body.push(<tr><td><button type={'button'} id={result['_id']} index={index} className={'delete btn btn-primary'} onClick={self.deleteClick}>{'Delete'}</button></td>{Object.keys(result).map((key) => <td>{result[key]}</td>)}</tr>);
-    //   self.body.push(<tr><td>Notes:<button type={'button'} id={result['_id']} className={'save btn btn-primary'} onClick={self.saveClick}>{'Save'}</button></td><td colSpan={colspan}><textarea style={{width: '100%'}}></textarea></td></tr>);
-    //});
+    props.body.forEach(function(result, index) {
+       self.body.push(<tr><td><button type={'button'} id={result['_id']} index={index} className={'delete btn btn-primary'} onClick={self.deleteClick}>{'Delete'}</button></td>{Object.keys(result).map((key) => <td>{result[key]}</td>)}</tr>);
+       self.body.push(<tr><td>Notes:<button type={'button'} id={result['_id']} className={'save btn btn-primary'} onClick={self.saveClick}>{'Save'}</button></td><td colSpan={colspan}><textarea style={{width: '100%'}}></textarea></td></tr>);
+    });
 
-    this.body = props.body.map((result, index) =>
-       <tr><td><button type={'button'} id={result['_id']} index={index} className={'delete btn btn-primary'} onClick={this.deleteClick}>{'Delete'}</button></td>{Object.keys(result).map((key) => <td>{result[key]}</td>)}</tr>
-    );
+    //this.body = props.body.map((result, index) =>
+    //   <tr><td><button type={'button'} id={result['_id']} index={index} className={'delete btn btn-primary'} onClick={this.deleteClick}>{'Delete'}</button></td>{Object.keys(result).map((key) => <td>{result[key]}</td>)}</tr>
+    //);
 
     this.state = {
                     body : this.body,
