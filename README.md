@@ -41,7 +41,7 @@ $ npm i
 ```
 
 ## Deploy DataBase Locally
-- Requires MongoDB version v3.4.4
+Requires MongoDB version v3.4.4
 
 - **Install MongoDB**
 _MacOS X_
@@ -54,7 +54,7 @@ $ brew install mongodb --with-openssl
 ```bash
 $ mkdir -p /data/db
 ```
-requires _Super User_ rights
+_requires Super User rights_
 
 - *Start MongoDB daemon*
 ```bash
@@ -63,31 +63,33 @@ $ mongod --dbpath /data/db
 
 ## Run Site
 Run Development Site
+
 **Requires MongoDB to be installed, see Deploy DataBase Locally**
 ```bash
 $ node wpromote_starwars_devel.js
 ```
 
-wpromote_starwars_prod.js can be deployed too, but it's meant to be run
+`wpromote_starwars_prod.js` can be deployed too, but it's meant to be run
 on the heroku server, so contains enviromental configurations meant to
 be used with heroku.
 
 ## Build Scripts
-- *Install Gulp*
+#### Install Gulp
+
 _MaxOS X_
 ```bash
 $ npm install gulp-cli -g
 $ npm install gulp -D
 ```
 
-## Tasks
-* Build
+#### Tasks
+**Build**
 ```bash
 $ gulp build
 ```
 Builds and Bundles the javascript and jsx files
 
-* Watch
+**Watch**
 ```bash
 $ gulp watch
 ```
