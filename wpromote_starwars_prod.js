@@ -11,8 +11,8 @@ var ObjectId = require('mongodb').ObjectID;
 var mongoDb; // global mongoDb variable
 
 // Prod Setup
-var mongo_uri = process.env.MONGOLAB_URI;
-
+var mongo_uri = process.env.MONGOLAB_URI || "mongodb://heroku_p1wnvkjm:6rd4mra313v0ngpgsde05dcp09@ds135912.mlab.com:35912/heroku_p1wnvkjm"; 
+ 
 // set assets folder
 app.use(express.static('assets'));
 app.use(express.static('dist'));
