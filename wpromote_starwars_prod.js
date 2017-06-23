@@ -11,7 +11,7 @@ var ObjectId = require('mongodb').ObjectID;
 var mongoDb; // global mongoDb variable
 
 // Prod Setup
-var mongo_uri = ENV['MONGODB_URI'];
+var mongo_uri = process.env.MONGOLAB_URI;
 
 // set assets folder
 app.use(express.static('assets'));
