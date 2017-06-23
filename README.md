@@ -44,6 +44,7 @@ $ npm i
 Requires MongoDB version v3.4.4
 
 - **Install MongoDB**
+
 _MacOS X_
 ```bash
 $ brew update
@@ -83,13 +84,13 @@ $ npm install gulp -D
 ```
 
 #### Tasks
-**Build**
+- **Build**
 ```bash
 $ gulp build
 ```
 Builds and Bundles the javascript and jsx files
 
-**Watch**
+- **Watch**
 ```bash
 $ gulp watch
 ```
