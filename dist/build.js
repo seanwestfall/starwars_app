@@ -123,12 +123,15 @@ var Search = exports.Search = function (_React$Component2) {
 
     _this2.headerProps;
     _this2.bodyProps;
+    _this2.count;
 
     _this2.handleChange = _this2.handleChange.bind(_this2);
     _this2.submitClick = _this2.submitClick.bind(_this2);
 
     _this2.prevClick = _this2.prevClick.bind(_this2);
     _this2.nextClick = _this2.nextClick.bind(_this2);
+
+    _this2.saveClick = _this2.saveClick.bind(_this2);
     return _this2;
   }
 
@@ -143,7 +146,10 @@ var Search = exports.Search = function (_React$Component2) {
         //displayData(Object.keys(data.results[0]), data);
 
         //currentData = data.results;
-        self.headerProps = Object.keys(data.results[0]).map(function (key) {
+        var keys = Object.keys(data.results[0]);
+        keys.unshift(''); // add an empty column for the save button
+
+        self.headerProps = keys.map(function (key) {
           return _react2.default.createElement(
             'th',
             null,
@@ -153,10 +159,19 @@ var Search = exports.Search = function (_React$Component2) {
 
         console.log(data);
 
-        self.bodyProps = data.results.map(function (result) {
+        self.bodyProps = data.results.map(function (result, index) {
           return _react2.default.createElement(
             'tr',
             null,
+            _react2.default.createElement(
+              'td',
+              null,
+              _react2.default.createElement(
+                'button',
+                { type: 'submit', id: index, className: 'save btn btn-primary', onClick: self.saveClick },
+                'Save'
+              )
+            ),
             Object.keys(result).map(function (key) {
               return _react2.default.createElement(
                 'td',
@@ -168,9 +183,25 @@ var Search = exports.Search = function (_React$Component2) {
         });
         console.log(self.bodyProps);
 
-        self.currentData = data.results;
-        //console.log(data);
+        data.table = self.state.value;
+        self.currentData = data;
+        console.log('data', data);
 
+        var N = (data.count - data.count % 10) / 10;
+        var arrN = Array.apply(null, { length: N }).map(Number.call, Number);
+        console.log(arrN);
+
+        self.count = arrN.map(function (number) {
+          return _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(
+              'a',
+              { href: '#' },
+              number
+            )
+          );
+        });
         self.setState({ value: 'people' });
       });
     }
@@ -188,6 +219,19 @@ var Search = exports.Search = function (_React$Component2) {
     key: 'nextClick',
     value: function nextClick(e) {
       e.preventDefault();
+    }
+  }, {
+    key: 'saveClick',
+    value: function saveClick(e) {
+      e.preventDefault();
+      //console.log(e.target.getAttribute('id'));
+      var targetId = e.target.getAttribute('id');
+      var postData = this.currentData.results[targetId];
+      postData.table = this.currentData.table;
+      //console.log(selectedData);
+      $.post('/saveToFavorites', postData, function (data) {
+        console.log(data);
+      });
     }
   }, {
     key: 'render',
@@ -290,14 +334,9 @@ var Search = exports.Search = function (_React$Component2) {
               )
             ),
             _react2.default.createElement(
-              'button',
-              { type: 'submit', id: 'prev', className: 'submit btn btn-primary', style: { float: 'left' } },
-              'Previous Page'
-            ),
-            _react2.default.createElement(
-              'button',
-              { type: 'submit', id: 'next', className: 'submit btn btn-primary', style: { float: 'right' } },
-              'Next Page'
+              'ul',
+              { className: 'pagination', style: { float: 'right' } },
+              this.count
             )
           )
         )
@@ -320,7 +359,126 @@ var Carousel = exports.Carousel = function (_React$Component3) {
   _createClass(Carousel, [{
     key: 'render',
     value: function render() {
-      return _react2.default.createElement('div', null);
+      return _react2.default.createElement(
+        'div',
+        { className: 'container' },
+        _react2.default.createElement(
+          'div',
+          { className: 'row' },
+          _react2.default.createElement(
+            'div',
+            { className: 'col-md-2 col-md-offset-5' },
+            _react2.default.createElement(
+              'h1',
+              null,
+              'Star Wars'
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'form-group row' },
+              _react2.default.createElement(
+                'label',
+                { 'for': 'example-text-input', className: 'col-2 col-form-label' },
+                'Search'
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'col-10' },
+                _react2.default.createElement('input', { className: 'form-control', type: 'text', value: '', id: 'search' })
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'form-group row' },
+              _react2.default.createElement(
+                'select',
+                { value: 'people', className: 'custom-select', onChange: '' },
+                _react2.default.createElement(
+                  'option',
+                  { value: 'people' },
+                  'People'
+                ),
+                _react2.default.createElement(
+                  'option',
+                  { value: 'films' },
+                  'Films'
+                ),
+                _react2.default.createElement(
+                  'option',
+                  { value: 'starships' },
+                  'Starships'
+                ),
+                _react2.default.createElement(
+                  'option',
+                  { value: 'vehicles' },
+                  'Vehicles'
+                ),
+                _react2.default.createElement(
+                  'option',
+                  { value: 'species' },
+                  'Species'
+                ),
+                _react2.default.createElement(
+                  'option',
+                  { value: 'planets' },
+                  'Planets'
+                )
+              )
+            ),
+            _react2.default.createElement(
+              'button',
+              { type: 'submit', id: 'submit', className: 'submit btn btn-primary', onClick: '' },
+              'Submit'
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'row' },
+          _react2.default.createElement(
+            'div',
+            { className: 'col-md-12' },
+            _react2.default.createElement(
+              'div',
+              { id: 'myCarousel', 'class': 'carousel slide', 'data-ride': 'carousel' },
+              _react2.default.createElement(
+                'ol',
+                { 'class': 'carousel-indicators' },
+                _react2.default.createElement('li', { 'data-target': '#myCarousel', 'data-slide-to': '0', 'class': 'active' }),
+                _react2.default.createElement('li', { 'data-target': '#myCarousel', 'data-slide-to': '1' }),
+                _react2.default.createElement('li', { 'data-target': '#myCarousel', 'data-slide-to': '2' })
+              ),
+              _react2.default.createElement(
+                'div',
+                { 'class': 'carousel-inner' },
+                _react2.default.createElement('div', { 'class': 'item active' }),
+                _react2.default.createElement('div', { 'class': 'item' }),
+                _react2.default.createElement('div', { 'class': 'item' })
+              ),
+              _react2.default.createElement(
+                'a',
+                { 'class': 'left carousel-control', href: '#myCarousel', 'data-slide': 'prev' },
+                _react2.default.createElement('span', { 'class': 'glyphicon glyphicon-chevron-left' }),
+                _react2.default.createElement(
+                  'span',
+                  { 'class': 'sr-only' },
+                  'Previous'
+                )
+              ),
+              _react2.default.createElement(
+                'a',
+                { 'class': 'right carousel-control', href: '#myCarousel', 'data-slide': 'next' },
+                _react2.default.createElement('span', { 'class': 'glyphicon glyphicon-chevron-right' }),
+                _react2.default.createElement(
+                  'span',
+                  { 'class': 'sr-only' },
+                  'Next'
+                )
+              )
+            )
+          )
+        )
+      );
     }
   }]);
 
@@ -330,20 +488,186 @@ var Carousel = exports.Carousel = function (_React$Component3) {
 var Favorites = exports.Favorites = function (_React$Component4) {
   _inherits(Favorites, _React$Component4);
 
-  function Favorites() {
+  function Favorites(props) {
     _classCallCheck(this, Favorites);
 
-    return _possibleConstructorReturn(this, (Favorites.__proto__ || Object.getPrototypeOf(Favorites)).apply(this, arguments));
+    var _this4 = _possibleConstructorReturn(this, (Favorites.__proto__ || Object.getPrototypeOf(Favorites)).call(this, props));
+
+    _this4.tables;
+
+    var self = _this4;
+
+    $.get('/getFavorites', function (data) {
+
+      var itemObj = {};
+      data.forEach(function (item) {
+        itemObj[item.table] = [];
+      });
+      data.forEach(function (item) {
+        //delete item['_id'];
+        itemObj[item.table].push(item);
+        delete item['table'];
+      });
+
+      var itemObjKeys = Object.keys(itemObj);
+      self.tables = itemObjKeys.map(function (item) {
+        return _react2.default.createElement(FavoritesTable, { header: Object.keys(itemObj[item][0]), body: itemObj[item] });
+      });
+
+      self.setState({});
+    });
+    return _this4;
   }
 
   _createClass(Favorites, [{
     key: 'render',
     value: function render() {
-      return _react2.default.createElement('div', null);
+      return _react2.default.createElement(
+        'div',
+        { className: 'container' },
+        _react2.default.createElement(
+          'div',
+          { className: 'row' },
+          _react2.default.createElement(
+            'div',
+            { className: 'col-md-12' },
+            this.tables
+          )
+        )
+      );
     }
   }]);
 
   return Favorites;
+}(_react2.default.Component);
+
+var FavoritesTable = function (_React$Component5) {
+  _inherits(FavoritesTable, _React$Component5);
+
+  function FavoritesTable(props) {
+    _classCallCheck(this, FavoritesTable);
+
+    var _this5 = _possibleConstructorReturn(this, (FavoritesTable.__proto__ || Object.getPrototypeOf(FavoritesTable)).call(this, props));
+
+    var keys = props.header;
+    keys.unshift('');
+    _this5.header = keys.map(function (key) {
+      return _react2.default.createElement(
+        'th',
+        null,
+        key
+      );
+    });
+
+    var self = _this5;
+
+    _this5.body = [];
+    var colspan = props.header.length;
+    var style = { width: '100%' };
+    //props.body.forEach(function(result, index) {
+    //   self.body.push(<tr><td><button type={'button'} id={result['_id']} index={index} className={'delete btn btn-primary'} onClick={self.deleteClick}>{'Delete'}</button></td>{Object.keys(result).map((key) => <td>{result[key]}</td>)}</tr>);
+    //   self.body.push(<tr><td>Notes:<button type={'button'} id={result['_id']} className={'save btn btn-primary'} onClick={self.saveClick}>{'Save'}</button></td><td colSpan={colspan}><textarea style={{width: '100%'}}></textarea></td></tr>);
+    //});
+
+    _this5.body = props.body.map(function (result, index) {
+      return _react2.default.createElement(
+        'tr',
+        null,
+        _react2.default.createElement(
+          'td',
+          null,
+          _react2.default.createElement(
+            'button',
+            { type: 'button', id: result['_id'], index: index, className: 'delete btn btn-primary', onClick: _this5.deleteClick },
+            'Delete'
+          )
+        ),
+        Object.keys(result).map(function (key) {
+          return _react2.default.createElement(
+            'td',
+            null,
+            result[key]
+          );
+        })
+      );
+    });
+
+    _this5.state = {
+      body: _this5.body,
+      header: _this5.header
+    };
+
+    _this5.props = props;
+
+    _this5.deleteClick = _this5.deleteClick.bind(_this5);
+    _this5.saveClick = _this5.saveClick.bind(_this5);
+    return _this5;
+  }
+
+  _createClass(FavoritesTable, [{
+    key: 'deleteClick',
+    value: function deleteClick(e) {
+      e.preventDefault();
+      var self = this;
+      console.log('self', self);
+
+      var targetId = e.target.getAttribute('id');
+      var targetIndex = e.target.getAttribute('index');
+      //console.log('this', this);
+      //var self = this;
+
+      $.get('/deleteFavorite/' + targetId, function () {
+        var newBody = self.body.split(index, 1);
+        this.setState({ body: newBody,
+          header: self.state.header });
+
+        //console.log('self', self);
+        //self.props.update();
+        //self.setState({});
+      });
+
+      //this.setState();
+    }
+  }, {
+    key: 'saveClick',
+    value: function saveClick(e) {
+      var id = e.target.getAttribute('id');
+
+      var postData = {};
+      postData.id = id;
+      postData.notes = "";
+
+      $.post('/saveNotes', postData, function () {
+        console.log('self', self);
+        self.props.update();
+        self.setState({});
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'table',
+        { className: 'table', id: 'table' },
+        _react2.default.createElement(
+          'thead',
+          null,
+          _react2.default.createElement(
+            'tr',
+            null,
+            this.state.header
+          )
+        ),
+        _react2.default.createElement(
+          'tbody',
+          null,
+          this.state.body
+        )
+      );
+    }
+  }]);
+
+  return FavoritesTable;
 }(_react2.default.Component);
 
 },{"react":222,"react-dom":44,"react-router-dom":182}],2:[function(require,module,exports){
@@ -456,14 +780,14 @@ $(document).ready(function () {
 		submitClick();
 	});
 
-	$('body').on('click', '.save', function (event) {
-		var targetId = $(event.currentTarget).attr('data-id');
-		console.log(currentData[targetId]);
-		var postData = currentData[targetId];
-		$.post('/saveToFavorites', postData, function (data) {
-			console.log(data);
-		});
-	});
+	// $( 'body' ).on('click', '.save', function(event) {
+	// 	var targetId = $(event.currentTarget).attr('data-id');
+	// 	console.log(currentData[targetId]);
+	// 	var postData = currentData[targetId]
+	// 	$.post( '/saveToFavorites', postData, function( data ) {
+	// 		console.log(data);
+	// 	});
+	// });
 
 	$('#favorites').on('click', function () {
 		$.get('/getFavorites', function (data) {

@@ -1,1 +1,1 @@
-web: node wpromote_starwars_devel.js
+web: node wpromote_starwars_prod.js

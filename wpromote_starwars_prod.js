@@ -10,6 +10,9 @@ var url = "mongodb://localhost:27017/mydb";
 var ObjectId = require('mongodb').ObjectID;
 var mongoDb; // global mongoDb variable
 
+// Prod Setup
+var mongo_uri = ENV['MONGODB_URI'];
+
 // set assets folder
 app.use(express.static('assets'));
 app.use(express.static('dist'));
@@ -64,7 +67,7 @@ app.post('/saveNotes', function (req, res) {
   res.send("record updated");
 });
 
-MongoClient.connect(url, function(err, db) {
+MongoClient.connect(mongo_uri, function(err, db) {
   if (err) throw err;
 
   mongoDb = db; // save open db to global object

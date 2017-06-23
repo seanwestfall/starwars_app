@@ -48,6 +48,7 @@ export class Search extends React.Component {
 
      this.headerProps;
      this.bodyProps;
+     this.count;
 
 
      this.handleChange = this.handleChange.bind(this);
@@ -55,6 +56,8 @@ export class Search extends React.Component {
 
      this.prevClick = this.prevClick.bind(this);
      this.nextClick = this.nextClick.bind(this);
+
+     this.saveClick = this.saveClick.bind(this);
    }
 
    submitClick(e) {
@@ -66,20 +69,31 @@ export class Search extends React.Component {
           //displayData(Object.keys(data.results[0]), data);
         
           //currentData = data.results;
-          self.headerProps = Object.keys(data.results[0]).map((key) =>
+          var keys = Object.keys(data.results[0]);
+          keys.unshift(''); // add an empty column for the save button
+
+          self.headerProps = keys.map((key) =>
             <th>{key}</th>
           );
 
           console.log(data);
 
-          self.bodyProps = data.results.map((result) =>
-            <tr>{Object.keys(result).map((key) => <td>{result[key]}</td>)}</tr>
+          self.bodyProps = data.results.map((result, index) =>
+            <tr><td><button type={'submit'} id={index} className={'save btn btn-primary'} onClick={self.saveClick}>{'Save'}</button></td>{Object.keys(result).map((key) => <td>{result[key]}</td>)}</tr>
           );
           console.log(self.bodyProps);
 
-          self.currentData = data.results;
-          //console.log(data);
+          data.table = self.state.value;
+          self.currentData = data;
+          console.log('data', data);
 
+          var N = (data.count - (data.count % 10)) / 10;
+          var arrN = Array.apply(null, {length: N}).map(Number.call, Number);
+          console.log(arrN);
+
+          self.count = arrN.map((number) =>
+            <li><a href={'#'}>{number}</a></li>
+          );
           self.setState({value: 'people'});
       });
    }
@@ -94,6 +108,18 @@ export class Search extends React.Component {
 
    nextClick(e) {
      e.preventDefault();
+   }
+
+   saveClick(e) {
+     e.preventDefault();
+     //console.log(e.target.getAttribute('id'));
+     var targetId = e.target.getAttribute('id');
+     var postData = this.currentData.results[targetId];
+     postData.table = this.currentData.table;
+     //console.log(selectedData);
+     $.post( '/saveToFavorites', postData, function( data ) {
+        console.log(data);
+     });
    }
 
    render() {
@@ -133,8 +159,9 @@ export class Search extends React.Component {
                       {this.bodyProps}
                     </tbody>
                   </table>
-                  <button type='submit' id='prev' className='submit btn btn-primary' style={{float:'left'}}>Previous Page</button>
-                  <button type='submit' id='next' className='submit btn btn-primary' style={{float:'right'}}>Next Page</button>
+                  <ul className='pagination' style={{float: 'right'}}>
+                    {this.count}
+                  </ul>
               </div>
           </div>
         </div>
@@ -145,17 +172,196 @@ export class Search extends React.Component {
 export class Carousel extends React.Component {
    render() {
       return (
-         <div>
-         </div>
+         <div className='container'>
+           <div className='row'>
+              <div className='col-md-2 col-md-offset-5'>
+                  <h1>Star Wars</h1>
+                  <div className='form-group row'>
+                    <label for="example-text-input" className='col-2 col-form-label'>Search</label>
+                    <div className='col-10'>
+                      <input className='form-control' type='text' value='' id='search'></input>
+                    </div>
+                  </div>
+                  <div className='form-group row'>
+                      <select value={'people'} className='custom-select' onChange={''}>
+                        <option value='people'>People</option>
+                        <option value='films'>Films</option>
+                        <option value='starships'>Starships</option>
+                        <option value='vehicles'>Vehicles</option>
+                        <option value='species'>Species</option>
+                        <option value='planets'>Planets</option>
+                      </select>
+                  </div>
+                  <button type='submit' id='submit' className='submit btn btn-primary' onClick={''}>Submit</button>
+              </div>
+          </div>
+          <div className='row'>
+            <div className='col-md-12'>
+              <div id="myCarousel" class="carousel slide" data-ride="carousel">
+
+                <ol class="carousel-indicators">
+                  <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                  <li data-target="#myCarousel" data-slide-to="1"></li>
+                  <li data-target="#myCarousel" data-slide-to="2"></li>
+                </ol>
+
+                <div class="carousel-inner">
+                  <div class="item active">
+                    
+                  </div>
+
+                  <div class="item">
+                    
+                  </div>
+
+                  <div class="item">
+
+                  </div>  
+                </div>
+
+                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                  <span class="glyphicon glyphicon-chevron-left"></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                  <span class="glyphicon glyphicon-chevron-right"></span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
       )
    }
 }
 
 export class Favorites extends React.Component {
+    constructor(props) {
+    super(props);
+
+    this.tables;
+
+    var self = this;
+
+    $.get('/getFavorites', function(data) {
+
+      var itemObj = {};
+      data.forEach(function(item) {
+        itemObj[item.table] = [];
+      });
+      data.forEach(function(item) {
+        //delete item['_id'];
+        itemObj[item.table].push(item);
+        delete item['table'];     
+      });
+      
+      var itemObjKeys = Object.keys(itemObj);
+      self.tables = itemObjKeys.map((item) =>
+        <FavoritesTable header={Object.keys(itemObj[item][0])} body={itemObj[item]}></FavoritesTable>
+      );
+
+      self.setState({});
+    });
+   }
+
    render() {
       return (
-         <div>
-         </div>
+        <div className='container'>
+         <div className='row'>
+              <div className='col-md-12'>
+                  {this.tables}
+              </div>
+          </div>
+        </div>
       )
    }
 }
+
+class FavoritesTable extends React.Component {
+   constructor(props) {
+    super(props);
+    
+    var keys = props.header;
+    keys.unshift('');
+    this.header = keys.map((key) =>
+       <th>{key}</th>
+    );
+
+    var self = this;
+
+    this.body = [];
+    var colspan = props.header.length;
+    var style = {width: '100%'};
+    //props.body.forEach(function(result, index) {
+    //   self.body.push(<tr><td><button type={'button'} id={result['_id']} index={index} className={'delete btn btn-primary'} onClick={self.deleteClick}>{'Delete'}</button></td>{Object.keys(result).map((key) => <td>{result[key]}</td>)}</tr>);
+    //   self.body.push(<tr><td>Notes:<button type={'button'} id={result['_id']} className={'save btn btn-primary'} onClick={self.saveClick}>{'Save'}</button></td><td colSpan={colspan}><textarea style={{width: '100%'}}></textarea></td></tr>);
+    //});
+
+    this.body = props.body.map((result, index) =>
+       <tr><td><button type={'button'} id={result['_id']} index={index} className={'delete btn btn-primary'} onClick={this.deleteClick}>{'Delete'}</button></td>{Object.keys(result).map((key) => <td>{result[key]}</td>)}</tr>
+    );
+
+    this.state = {
+                    body : this.body,
+                    header: this.header
+                 };
+
+    this.props = props;
+
+    this.deleteClick = this.deleteClick.bind(this);
+    this.saveClick = this.saveClick.bind(this);
+   }
+
+   deleteClick(e) {
+    e.preventDefault();
+    var self = this;
+    console.log('self', self);
+
+    var targetId = e.target.getAttribute('id');
+    var targetIndex = e.target.getAttribute('index');
+    //console.log('this', this);
+    //var self = this;
+
+    $.get('/deleteFavorite/'+targetId, function() {
+      var newBody = self.body.split(index,1);
+      this.setState({ body: newBody,
+                      header: self.state.header });
+
+      //console.log('self', self);
+      //self.props.update();
+      //self.setState({});
+    });
+
+    //this.setState();
+   }
+
+   saveClick(e) {
+    var id = e.target.getAttribute('id');
+
+    var postData = {};
+    postData.id = id;
+    postData.notes = "";
+
+    $.post('/saveNotes', postData, function() {
+      console.log('self', self);
+      self.props.update();
+      self.setState({});
+    });
+   }
+
+   render() {
+      return (
+        <table className='table' id='table'>
+          <thead>
+            <tr>
+              {this.state.header}
+            </tr>
+          </thead>
+          <tbody>
+              {this.state.body}
+           </tbody>
+        </table>
+      )
+   }
+}
+

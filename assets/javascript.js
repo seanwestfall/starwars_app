@@ -96,14 +96,14 @@ $( document ).ready(function() {
 		submitClick();
 	});
 
-	$( 'body' ).on('click', '.save', function(event) {
-		var targetId = $(event.currentTarget).attr('data-id');
-		console.log(currentData[targetId]);
-		var postData = currentData[targetId]
-		$.post( '/saveToFavorites', postData, function( data ) {
-			console.log(data);
-		});
-	});
+	// $( 'body' ).on('click', '.save', function(event) {
+	// 	var targetId = $(event.currentTarget).attr('data-id');
+	// 	console.log(currentData[targetId]);
+	// 	var postData = currentData[targetId]
+	// 	$.post( '/saveToFavorites', postData, function( data ) {
+	// 		console.log(data);
+	// 	});
+	// });
 
 	$( '#favorites' ).on('click', function() {
 		$.get('/getFavorites', function(data) {
