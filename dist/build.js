@@ -121,6 +121,72 @@ var Search = exports.Search = function (_React$Component2) {
     _this2.currentData;
     _this2.state = { value: 'people' };
 
+    var self = _this2;
+
+    $.get("https://swapi.co/api/" + _this2.state.value + "/?search=" + _this2.searchParameter + "&format=json&page=" + _this2.currentPage, function (data) {
+      //setheader(Object.keys(data.results[0]));
+      //displayData(Object.keys(data.results[0]), data);
+
+      //currentData = data.results;
+      var keys = Object.keys(data.results[0]);
+      keys.unshift(''); // add an empty column for the save button
+
+      self.headerProps = keys.map(function (key) {
+        return _react2.default.createElement(
+          'th',
+          null,
+          key
+        );
+      });
+
+      console.log(data);
+
+      self.bodyProps = data.results.map(function (result, index) {
+        return _react2.default.createElement(
+          'tr',
+          null,
+          _react2.default.createElement(
+            'td',
+            null,
+            _react2.default.createElement(
+              'button',
+              { type: 'submit', id: index, className: 'save btn btn-primary', onClick: self.saveClick },
+              'Save'
+            )
+          ),
+          Object.keys(result).map(function (key) {
+            return _react2.default.createElement(
+              'td',
+              null,
+              result[key]
+            );
+          })
+        );
+      });
+      console.log(self.bodyProps);
+
+      data.table = self.state.value;
+      self.currentData = data;
+      console.log('data', data);
+
+      var N = (data.count - data.count % 10) / 10;
+      var arrN = Array.apply(null, { length: N }).map(Number.call, Number);
+      console.log(arrN);
+
+      self.count = arrN.map(function (number) {
+        return _react2.default.createElement(
+          'li',
+          null,
+          _react2.default.createElement(
+            'a',
+            { href: '#' },
+            number
+          )
+        );
+      });
+      self.setState({ value: 'people' });
+    });
+
     _this2.headerProps;
     _this2.bodyProps;
     _this2.count;

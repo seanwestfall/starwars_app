@@ -46,6 +46,41 @@ export class Search extends React.Component {
      this.currentData;
      this.state = {value: 'people'};
 
+     var self = this;
+
+      $.get( "https://swapi.co/api/"+this.state.value+"/?search="+this.searchParameter+"&format=json&page="+this.currentPage, function( data ) {
+          //setheader(Object.keys(data.results[0]));
+          //displayData(Object.keys(data.results[0]), data);
+        
+          //currentData = data.results;
+          var keys = Object.keys(data.results[0]);
+          keys.unshift(''); // add an empty column for the save button
+
+          self.headerProps = keys.map((key) =>
+            <th>{key}</th>
+          );
+
+          console.log(data);
+
+          self.bodyProps = data.results.map((result, index) =>
+            <tr><td><button type={'submit'} id={index} className={'save btn btn-primary'} onClick={self.saveClick}>{'Save'}</button></td>{Object.keys(result).map((key) => <td>{result[key]}</td>)}</tr>
+          );
+          console.log(self.bodyProps);
+
+          data.table = self.state.value;
+          self.currentData = data;
+          console.log('data', data);
+
+          var N = (data.count - (data.count % 10)) / 10;
+          var arrN = Array.apply(null, {length: N}).map(Number.call, Number);
+          console.log(arrN);
+
+          self.count = arrN.map((number) =>
+            <li><a href={'#'}>{number}</a></li>
+          );
+          self.setState({value: 'people'});
+      });
+
      this.headerProps;
      this.bodyProps;
      this.count;
