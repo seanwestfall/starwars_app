@@ -380,7 +380,7 @@ var Search = exports.Search = function (_React$Component2) {
           { className: 'row' },
           _react2.default.createElement(
             'div',
-            { className: 'col-md-12' },
+            { className: 'col-md-12 searchTable', style: { overflowY: "scroll" } },
             _react2.default.createElement(
               'table',
               { className: 'table', id: 'table' },

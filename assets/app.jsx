@@ -183,7 +183,7 @@ export class Search extends React.Component {
               </div>
           </div>
           <div className='row'>
-              <div className='col-md-12'>
+              <div className='col-md-12 searchTable' style={{overflowY: "scroll"}}>
                   <table className='table' id='table'>
                     <thead>
                       <tr>
