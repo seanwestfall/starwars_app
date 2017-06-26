@@ -28,6 +28,9 @@ app.get('/', function (req, res) {
 app.post('/saveToFavorites', function (req, mainres) {
     req.body.notes = ""; // initialize notes
 
+    console.log('req.body', req.body);
+    console.log('req.body.table', req.body.table);
+
     mongoDb.collection("favorites").insertOne(req.body, function(err, res) {
        if (err) throw err;
        console.log("1 record inserted");

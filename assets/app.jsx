@@ -282,13 +282,9 @@ export class Favorites extends React.Component {
 
       var itemObj = {};
       data.forEach(function(item) {
-        itemObj[item.table] = [];
+        itemObj[item[0].table] = item;
       });
-      data.forEach(function(item) {
-        //delete item['_id'];
-        itemObj[item.table].push(item);
-        delete item['table'];     
-      });
+      console.log('itemObj', itemObj);
       
       var itemObjKeys = Object.keys(itemObj);
       self.tables = itemObjKeys.map((item) =>

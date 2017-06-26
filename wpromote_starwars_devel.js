@@ -25,7 +25,10 @@ app.get('/', function (req, res) {
 app.post('/saveToFavorites', function (req, mainres) {
     req.body.notes = ""; // initialize notes
 
-    mongoDb.collection("favorites").insertOne(req.body, function(err, res) {
+    console.log('req.body', req.body);
+    console.log('req.body.table', req.body.table);
+
+    mongoDb.collection(req.body.table + "_favorites").insertOne(req.body, function(err, res) {
        if (err) throw err;
        console.log("1 record inserted");
 
@@ -35,13 +38,31 @@ app.post('/saveToFavorites', function (req, mainres) {
 });
 
 app.get('/getFavorites', function (req, res) {  
+  mongoDb.collections(function(e, collections) {
+      if (e) throw e;
+      var names = collections.filter(function (collection) { return /_favorites?/.test(collection.s.name) });
+      console.log('collections', collections);
+      console.log('names', names);
+  
+      var nameslength = names.length;
+      console.log('nameslength', nameslength);
+      var result_collections = [];
+      var sendCounter = 0;
+      names.forEach(function(collection) {
+        mongoDb.collection(collection.s.name).find({}).toArray(function(err, result) {
+          if (err) throw err;
+           console.log('result', result);
 
-  mongoDb.collection("favorites").find({}).toArray(function(err, result) {
-      if (err) throw err;
-       console.log('result', result);
+           result_collections.push(result);
+           sendCounter++;
 
-       res.setHeader('Content-Type', 'application/json');
-       res.send(result);
+           if(sendCounter == nameslength) {
+            console.log('send fired!', result_collections);
+            res.setHeader('Content-Type', 'application/json');
+            res.send(result_collections);
+           }
+        });
+      })
   });
 });
 
