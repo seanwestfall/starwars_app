@@ -311,11 +311,16 @@ export class Favorites extends React.Component {
 class FavoritesTable extends React.Component {
    constructor(props) {
     super(props);
+
+    var self = this;
     
     var keys = props.header;
     keys.unshift('');
+
+    console.log('this', this);
+    console.log('self', self);
     this.header = keys.map((key) =>
-       <th>{key}</th>
+       <th onClick={self.testClick}>{key}</th>
     );
 
     var self = this;
@@ -323,14 +328,20 @@ class FavoritesTable extends React.Component {
     this.body = [];
     var colspan = props.header.length;
     var style = {width: '100%'};
-    props.body.forEach(function(result, index) {
+    /*props.body.forEach(function(result, index) {
        self.body.push(<tr><td><button type={'button'} id={result['_id']} index={index} className={'delete btn btn-primary'} onClick={self.deleteClick}>{'Delete'}</button></td>{Object.keys(result).map((key) => <td>{result[key]}</td>)}</tr>);
        self.body.push(<tr><td>Notes:<button type={'button'} id={result['_id']} className={'save btn btn-primary'} onClick={self.saveClick}>{'Save'}</button></td><td colSpan={colspan}><textarea style={{width: '100%'}}></textarea></td></tr>);
-    });
+    });*/
+    
+    this.body = props.body.map((result, index) =>
+       <tr><td><button type={'button'} id={result['_id']} index={index} className={'delete btn btn-primary'} onClick={self.saveClick}>{'Delete'}</button></td>{Object.keys(result).map((key) => <td>{result[key]}</td>)}</tr>
+    );
 
-    //this.body = props.body.map((result, index) =>
-    //   <tr><td><button type={'button'} id={result['_id']} index={index} className={'delete btn btn-primary'} onClick={this.deleteClick}>{'Delete'}</button></td>{Object.keys(result).map((key) => <td>{result[key]}</td>)}</tr>
-    //);
+    /*map((item) =>
+      item + <tr><td>Notes:<button type={'button'} id={result['_id']} className={'save btn btn-primary'} onClick={self.saveClick}>{'Save'}</button></td><td colSpan={colspan}><textarea style={{width: '100%'}}></textarea></td></tr>
+    );*/
+
+    console.log('this.body', this.body);
 
     this.state = {
                     body : this.body,
@@ -341,11 +352,17 @@ class FavoritesTable extends React.Component {
 
     this.deleteClick = this.deleteClick.bind(this);
     this.saveClick = this.saveClick.bind(this);
+    this.testClick = this.testClick.bind(this);
+   }
+
+   testClick(e) {
+    console.log(this);
    }
 
    deleteClick(e) {
     e.preventDefault();
     var self = this;
+    console.log('this', this);
     console.log('self', self);
 
     var targetId = e.target.getAttribute('id');
@@ -353,7 +370,7 @@ class FavoritesTable extends React.Component {
     //console.log('this', this);
     //var self = this;
 
-    $.get('/deleteFavorite/'+targetId, function() {
+    /*$.get('/deleteFavorite/'+targetId, function() {
       var newBody = self.body.split(index,1);
       this.setState({ body: newBody,
                       header: self.state.header });
@@ -361,7 +378,7 @@ class FavoritesTable extends React.Component {
       //console.log('self', self);
       //self.props.update();
       //self.setState({});
-    });
+    });*/
 
     //this.setState();
    }
@@ -373,11 +390,13 @@ class FavoritesTable extends React.Component {
     postData.id = id;
     postData.notes = "";
 
-    $.post('/saveNotes', postData, function() {
+    console.log(this);
+
+    /*$.post('/saveNotes', postData, function() {
       console.log('self', self);
       self.props.update();
       self.setState({});
-    });
+    });*/
    }
 
    render() {
