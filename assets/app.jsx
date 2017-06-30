@@ -273,6 +273,8 @@ export class Carousel extends React.Component {
 export class Favorites extends React.Component {
     constructor(props) {
     super(props);
+    this.changeHandler = this.changeHandler.bind(this);
+
 
     this.tables;
 
@@ -287,12 +289,17 @@ export class Favorites extends React.Component {
       console.log('itemObj', itemObj);
       
       var itemObjKeys = Object.keys(itemObj);
+
       self.tables = itemObjKeys.map((item) =>
-        <FavoritesTable header={Object.keys(itemObj[item][0])} body={itemObj[item]}></FavoritesTable>
+        <FavoritesTable header={Object.keys(itemObj[item][0])} body={itemObj[item]} onChange={self.changeHandler}></FavoritesTable>
       );
 
       self.setState({});
     });
+   }
+
+   changeHandler(value) {
+    console.log('called', value);
    }
 
    render() {
@@ -308,19 +315,20 @@ export class Favorites extends React.Component {
    }
 }
 
-class FavoritesTable extends React.Component {
+export class FavoritesTable extends React.Component {
    constructor(props) {
     super(props);
+    this.deleteClick = this.deleteClick.bind(this);
+    this.saveClick = this.saveClick.bind(this);
+    this.testClick = this.testClick.bind(this);
 
     var self = this;
     
     var keys = props.header;
     keys.unshift('');
 
-    console.log('this', this);
-    console.log('self', self);
     this.header = keys.map((key) =>
-       <th onClick={self.testClick}>{key}</th>
+       <th>{key}</th>
     );
 
     var self = this;
@@ -334,7 +342,7 @@ class FavoritesTable extends React.Component {
     });*/
     
     this.body = props.body.map((result, index) =>
-       <tr><td><button type={'button'} id={result['_id']} index={index} className={'delete btn btn-primary'} onClick={self.saveClick}>{'Delete'}</button></td>{Object.keys(result).map((key) => <td>{result[key]}</td>)}</tr>
+       <tr><td><button type={'button'} id={result['_id']} index={index} className={'delete btn btn-primary'} onClick={self.deleteClick}>{'Delete'}</button></td>{Object.keys(result).map((key) => <td>{result[key]}</td>)}</tr>
     );
 
     /*map((item) =>
@@ -350,9 +358,9 @@ class FavoritesTable extends React.Component {
 
     this.props = props;
 
-    this.deleteClick = this.deleteClick.bind(this);
+    /*this.deleteClick = this.deleteClick.bind(this);
     this.saveClick = this.saveClick.bind(this);
-    this.testClick = this.testClick.bind(this);
+    this.testClick = this.testClick.bind(this);*/
    }
 
    testClick(e) {
@@ -360,13 +368,24 @@ class FavoritesTable extends React.Component {
    }
 
    deleteClick(e) {
-    e.preventDefault();
+
+    console.log('this', this);
+    var targetIndex = e.target.getAttribute('index');
+
+    var newBody = this.body.splice(targetIndex, 1);
+
+    this.setState({ body: newBody,
+                      header: this.state.header });
+   
+    this.props.onChange(e.target.value);
+
+    /*e.preventDefault();
     var self = this;
     console.log('this', this);
     console.log('self', self);
 
     var targetId = e.target.getAttribute('id');
-    var targetIndex = e.target.getAttribute('index');
+    var targetIndex = e.target.getAttribute('index');*/
     //console.log('this', this);
     //var self = this;
 
