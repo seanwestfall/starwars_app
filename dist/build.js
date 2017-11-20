@@ -4,7 +4,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Favorites = exports.Carousel = exports.Search = undefined;
+exports.FavoritesTable = exports.Favorites = exports.Carousel = exports.Search = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -117,13 +117,13 @@ var Search = exports.Search = function (_React$Component2) {
     var _this2 = _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this, props));
 
     _this2.currentPage = 1;
-    _this2.searchParameter = "";
+    //this.searchParameter = "";
     _this2.currentData;
-    _this2.state = { value: 'people' };
+    _this2.state = { value: 'people', searchParameter: '' };
 
     var self = _this2;
 
-    $.get("https://swapi.co/api/" + _this2.state.value + "/?search=" + _this2.searchParameter + "&format=json&page=" + _this2.currentPage, function (data) {
+    $.get("https://swapi.co/api/" + _this2.state.value + "/?search=" + _this2.state.searchParameter + "&format=json&page=" + _this2.currentPage, function (data) {
       //setheader(Object.keys(data.results[0]));
       //displayData(Object.keys(data.results[0]), data);
 
@@ -207,7 +207,7 @@ var Search = exports.Search = function (_React$Component2) {
       e.preventDefault();
       var self = this;
 
-      $.get("https://swapi.co/api/" + this.state.value + "/?search=" + this.searchParameter + "&format=json&page=" + this.currentPage, function (data) {
+      $.get("https://swapi.co/api/" + this.state.value + "/?search=" + this.state.searchParameter + "&format=json&page=" + this.currentPage, function (data) {
         //setheader(Object.keys(data.results[0]));
         //displayData(Object.keys(data.results[0]), data);
 
@@ -327,7 +327,7 @@ var Search = exports.Search = function (_React$Component2) {
               _react2.default.createElement(
                 'div',
                 { className: 'col-10' },
-                _react2.default.createElement('input', { className: 'form-control', type: 'text', value: '', id: 'search' })
+                _react2.default.createElement('input', { className: 'form-control', type: 'text', value: this.state.searchParameter, ref: 'searchStringInput', onchange: this.handleChange, id: 'search' })
               )
             ),
             _react2.default.createElement(
@@ -559,6 +559,8 @@ var Favorites = exports.Favorites = function (_React$Component4) {
 
     var _this4 = _possibleConstructorReturn(this, (Favorites.__proto__ || Object.getPrototypeOf(Favorites)).call(this, props));
 
+    _this4.changeHandler = _this4.changeHandler.bind(_this4);
+
     _this4.tables;
 
     var self = _this4;
@@ -572,8 +574,9 @@ var Favorites = exports.Favorites = function (_React$Component4) {
       console.log('itemObj', itemObj);
 
       var itemObjKeys = Object.keys(itemObj);
+
       self.tables = itemObjKeys.map(function (item) {
-        return _react2.default.createElement(FavoritesTable, { header: Object.keys(itemObj[item][0]), body: itemObj[item] });
+        return _react2.default.createElement(FavoritesTable, { header: Object.keys(itemObj[item][0]), body: itemObj[item], onChange: self.changeHandler });
       });
 
       self.setState({});
@@ -582,6 +585,11 @@ var Favorites = exports.Favorites = function (_React$Component4) {
   }
 
   _createClass(Favorites, [{
+    key: 'changeHandler',
+    value: function changeHandler(value) {
+      console.log('called', value);
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -603,7 +611,7 @@ var Favorites = exports.Favorites = function (_React$Component4) {
   return Favorites;
 }(_react2.default.Component);
 
-var FavoritesTable = function (_React$Component5) {
+var FavoritesTable = exports.FavoritesTable = function (_React$Component5) {
   _inherits(FavoritesTable, _React$Component5);
 
   function FavoritesTable(props) {
@@ -611,8 +619,15 @@ var FavoritesTable = function (_React$Component5) {
 
     var _this5 = _possibleConstructorReturn(this, (FavoritesTable.__proto__ || Object.getPrototypeOf(FavoritesTable)).call(this, props));
 
+    _this5.deleteClick = _this5.deleteClick.bind(_this5);
+    _this5.saveClick = _this5.saveClick.bind(_this5);
+    _this5.testClick = _this5.testClick.bind(_this5);
+
+    var self = _this5;
+
     var keys = props.header;
     keys.unshift('');
+
     _this5.header = keys.map(function (key) {
       return _react2.default.createElement(
         'th',
@@ -626,8 +641,13 @@ var FavoritesTable = function (_React$Component5) {
     _this5.body = [];
     var colspan = props.header.length;
     var style = { width: '100%' };
-    props.body.forEach(function (result, index) {
-      self.body.push(_react2.default.createElement(
+    /*props.body.forEach(function(result, index) {
+       self.body.push(<tr><td><button type={'button'} id={result['_id']} index={index} className={'delete btn btn-primary'} onClick={self.deleteClick}>{'Delete'}</button></td>{Object.keys(result).map((key) => <td>{result[key]}</td>)}</tr>);
+       self.body.push(<tr><td>Notes:<button type={'button'} id={result['_id']} className={'save btn btn-primary'} onClick={self.saveClick}>{'Save'}</button></td><td colSpan={colspan}><textarea style={{width: '100%'}}></textarea></td></tr>);
+    });*/
+
+    _this5.body = props.body.map(function (result, index) {
+      return _react2.default.createElement(
         'tr',
         null,
         _react2.default.createElement(
@@ -646,31 +666,14 @@ var FavoritesTable = function (_React$Component5) {
             result[key]
           );
         })
-      ));
-      self.body.push(_react2.default.createElement(
-        'tr',
-        null,
-        _react2.default.createElement(
-          'td',
-          null,
-          'Notes:',
-          _react2.default.createElement(
-            'button',
-            { type: 'button', id: result['_id'], className: 'save btn btn-primary', onClick: self.saveClick },
-            'Save'
-          )
-        ),
-        _react2.default.createElement(
-          'td',
-          { colSpan: colspan },
-          _react2.default.createElement('textarea', { style: { width: '100%' } })
-        )
-      ));
+      );
     });
 
-    //this.body = props.body.map((result, index) =>
-    //   <tr><td><button type={'button'} id={result['_id']} index={index} className={'delete btn btn-primary'} onClick={this.deleteClick}>{'Delete'}</button></td>{Object.keys(result).map((key) => <td>{result[key]}</td>)}</tr>
-    //);
+    /*map((item) =>
+      item + <tr><td>Notes:<button type={'button'} id={result['_id']} className={'save btn btn-primary'} onClick={self.saveClick}>{'Save'}</button></td><td colSpan={colspan}><textarea style={{width: '100%'}}></textarea></td></tr>
+    );*/
+
+    console.log('this.body', _this5.body);
 
     _this5.state = {
       body: _this5.body,
@@ -679,32 +682,48 @@ var FavoritesTable = function (_React$Component5) {
 
     _this5.props = props;
 
-    _this5.deleteClick = _this5.deleteClick.bind(_this5);
-    _this5.saveClick = _this5.saveClick.bind(_this5);
+    /*this.deleteClick = this.deleteClick.bind(this);
+    this.saveClick = this.saveClick.bind(this);
+    this.testClick = this.testClick.bind(this);*/
     return _this5;
   }
 
   _createClass(FavoritesTable, [{
+    key: 'testClick',
+    value: function testClick(e) {
+      console.log(this);
+    }
+  }, {
     key: 'deleteClick',
     value: function deleteClick(e) {
-      e.preventDefault();
-      var self = this;
-      console.log('self', self);
 
-      var targetId = e.target.getAttribute('id');
+      console.log('this', this);
       var targetIndex = e.target.getAttribute('index');
+
+      var newBody = this.body.splice(targetIndex, 1);
+
+      this.setState({ body: newBody,
+        header: this.state.header });
+
+      this.props.onChange(e.target.value);
+
+      /*e.preventDefault();
+      var self = this;
+      console.log('this', this);
+      console.log('self', self);
+       var targetId = e.target.getAttribute('id');
+      var targetIndex = e.target.getAttribute('index');*/
       //console.log('this', this);
       //var self = this;
 
-      $.get('/deleteFavorite/' + targetId, function () {
-        var newBody = self.body.split(index, 1);
+      /*$.get('/deleteFavorite/'+targetId, function() {
+        var newBody = self.body.split(index,1);
         this.setState({ body: newBody,
-          header: self.state.header });
-
-        //console.log('self', self);
+                        header: self.state.header });
+         //console.log('self', self);
         //self.props.update();
         //self.setState({});
-      });
+      });*/
 
       //this.setState();
     }
@@ -717,11 +736,13 @@ var FavoritesTable = function (_React$Component5) {
       postData.id = id;
       postData.notes = "";
 
-      $.post('/saveNotes', postData, function () {
+      console.log(this);
+
+      /*$.post('/saveNotes', postData, function() {
         console.log('self', self);
         self.props.update();
         self.setState({});
-      });
+      });*/
     }
   }, {
     key: 'render',

@@ -42,13 +42,13 @@ export class Search extends React.Component {
      super(props);
      
      this.currentPage = 1;
-     this.searchParameter = "";
+     //this.searchParameter = "";
      this.currentData;
-     this.state = {value: 'people'};
+     this.state = {value: 'people', searchParameter: ''};
 
      var self = this;
 
-      $.get( "https://swapi.co/api/"+this.state.value+"/?search="+this.searchParameter+"&format=json&page="+this.currentPage, function( data ) {
+      $.get( "https://swapi.co/api/"+this.state.value+"/?search="+this.state.searchParameter+"&format=json&page="+this.currentPage, function( data ) {
           //setheader(Object.keys(data.results[0]));
           //displayData(Object.keys(data.results[0]), data);
         
@@ -99,7 +99,7 @@ export class Search extends React.Component {
       e.preventDefault();
       var self = this;
 
-      $.get( "https://swapi.co/api/"+this.state.value+"/?search="+this.searchParameter+"&format=json&page="+this.currentPage, function( data ) {
+      $.get( "https://swapi.co/api/"+this.state.value+"/?search="+this.state.searchParameter+"&format=json&page="+this.currentPage, function( data ) {
           //setheader(Object.keys(data.results[0]));
           //displayData(Object.keys(data.results[0]), data);
         
@@ -166,7 +166,7 @@ export class Search extends React.Component {
                   <div className='form-group row'>
                     <label for="example-text-input" className='col-2 col-form-label'>Search</label>
                     <div className='col-10'>
-                      <input className='form-control' type='text' value='' id='search'></input>
+                      <input className='form-control' type='text' value={this.state.searchParameter} ref='searchStringInput' onchange={this.handleChange} id='search'></input>
                     </div>
                   </div>
                   <div className='form-group row'>
