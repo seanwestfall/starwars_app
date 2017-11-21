@@ -78,7 +78,7 @@ export class Search extends React.Component {
           self.count = arrN.map((number) =>
             <li><a href={'#'}>{number}</a></li>
           );
-          self.setState({value: 'people'});
+          self.setState({value: 'people', searchParameter: ''});
       });
 
      this.headerProps;
@@ -87,6 +87,7 @@ export class Search extends React.Component {
 
 
      this.handleChange = this.handleChange.bind(this);
+     this.handleSearch = this.handleSearch.bind(this);
      this.submitClick = this.submitClick.bind(this);
 
      this.prevClick = this.prevClick.bind(this);
@@ -134,7 +135,17 @@ export class Search extends React.Component {
    }
 
    handleChange(e) {
-     this.setState({value: e.target.value});
+     var searchParameter = this.state.searchParameter;
+     this.setState({value: e.target.value, searchParameter: searchParameter});
+     console.log('called!', this);
+     console.log('e', e);
+   }
+
+   handleSearch(e) {
+     var value = this.state.value;
+     this.setState({value: value, searchParameter: e.target.value});
+     console.log('called!', this);
+     console.log('e', e);
    }
 
    prevClick(e) {
@@ -166,7 +177,7 @@ export class Search extends React.Component {
                   <div className='form-group row'>
                     <label for="example-text-input" className='col-2 col-form-label'>Search</label>
                     <div className='col-10'>
-                      <input className='form-control' type='text' value={this.state.searchParameter} ref='searchStringInput' onchange={this.handleChange} id='search'></input>
+                      <input className='form-control' type='text' value={this.state.searchParameter} ref='searchParameter' onChange={this.handleSearch} defaultValue='' id='search'></input>
                     </div>
                   </div>
                   <div className='form-group row'>

@@ -184,7 +184,7 @@ var Search = exports.Search = function (_React$Component2) {
           )
         );
       });
-      self.setState({ value: 'people' });
+      self.setState({ value: 'people', searchParameter: '' });
     });
 
     _this2.headerProps;
@@ -192,6 +192,7 @@ var Search = exports.Search = function (_React$Component2) {
     _this2.count;
 
     _this2.handleChange = _this2.handleChange.bind(_this2);
+    _this2.handleSearch = _this2.handleSearch.bind(_this2);
     _this2.submitClick = _this2.submitClick.bind(_this2);
 
     _this2.prevClick = _this2.prevClick.bind(_this2);
@@ -274,7 +275,18 @@ var Search = exports.Search = function (_React$Component2) {
   }, {
     key: 'handleChange',
     value: function handleChange(e) {
-      this.setState({ value: e.target.value });
+      var searchParameter = this.state.searchParameter;
+      this.setState({ value: e.target.value, searchParameter: searchParameter });
+      console.log('called!', this);
+      console.log('e', e);
+    }
+  }, {
+    key: 'handleSearch',
+    value: function handleSearch(e) {
+      var value = this.state.value;
+      this.setState({ value: value, searchParameter: e.target.value });
+      console.log('called!', this);
+      console.log('e', e);
     }
   }, {
     key: 'prevClick',
@@ -327,7 +339,7 @@ var Search = exports.Search = function (_React$Component2) {
               _react2.default.createElement(
                 'div',
                 { className: 'col-10' },
-                _react2.default.createElement('input', { className: 'form-control', type: 'text', value: this.state.searchParameter, ref: 'searchStringInput', onchange: this.handleChange, id: 'search' })
+                _react2.default.createElement('input', { className: 'form-control', type: 'text', value: this.state.searchParameter, ref: 'searchParameter', onChange: this.handleSearch, defaultValue: '', id: 'search' })
               )
             ),
             _react2.default.createElement(
