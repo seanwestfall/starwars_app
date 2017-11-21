@@ -295,7 +295,8 @@ export class Favorites extends React.Component {
 
       var itemObj = {};
       data.forEach(function(item) {
-        itemObj[item[0].table] = item;
+        console.log(item.table)
+        itemObj[item.table] = item;
       });
       console.log('itemObj', itemObj);
       

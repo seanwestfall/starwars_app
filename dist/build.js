@@ -581,7 +581,8 @@ var Favorites = exports.Favorites = function (_React$Component4) {
 
       var itemObj = {};
       data.forEach(function (item) {
-        itemObj[item[0].table] = item;
+        console.log(item.table);
+        itemObj[item.table] = item;
       });
       console.log('itemObj', itemObj);
 
