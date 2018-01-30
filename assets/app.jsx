@@ -2,6 +2,46 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter, BrowserRouter, Switch, Link, Route } from 'react-router-dom';
 
+import TableExampleSimple from './sample_table.jsx'
+
+import SearchBar from 'material-ui-search-bar'
+import AppBar from 'material-ui/AppBar';
+import {Tabs, Tab} from 'material-ui/Tabs';
+import Slider from 'material-ui/Slider';
+import FontIcon from 'material-ui/FontIcon';
+
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
+const styles = {
+  headline: {
+    fontSize: 24,
+    paddingTop: 16,
+    marginBottom: 12,
+    fontWeight: 400,
+  },
+};
+
+const TabsExampleIconText = () => (
+  <Tabs>
+    <Tab
+      icon={<FontIcon className="material-icons">search</FontIcon>}
+      label="SEARCH"
+    />
+    <Tab
+      icon={<FontIcon className="material-icons">view_carousel</FontIcon>}
+      label="CAROUSEL"
+    />
+    <Tab
+      icon={<FontIcon className="material-icons">favorite</FontIcon>}
+      label="FAVORITES"
+    />
+  </Tabs>
+);
+
 const Main = () => (
   <main>
     <Switch>
@@ -27,10 +67,15 @@ const Header = () => (
 class App extends React.Component {
    render() {
       return (
+        <MuiThemeProvider>
         <div>
-          <Header />
+        <AppBar
+          title="StarWars"
+        />
+        <TabsExampleIconText />
           <Main />
         </div>
+        </MuiThemeProvider>
       )
    }
 }
@@ -173,11 +218,25 @@ export class Search extends React.Component {
          <div className='container'>
            <div className='row'>
               <div className='col-md-2 col-md-offset-5'>
-                  <h1>Star Wars</h1>
+                  <h1></h1>
                   <div className='form-group row'>
-                    <label for="example-text-input" className='col-2 col-form-label'>Search</label>
+                    <label for="example-text-input" className='col-2 col-form-label'></label>
                     <div className='col-10'>
-                      <input className='form-control' type='text' value={this.state.searchParameter} ref='searchParameter' onChange={this.handleSearch} defaultValue='' id='search'></input>
+                      <DropDownMenu value={this.state.value} onChange={this.handleChange}>
+                        <MenuItem value={1} primaryText="Never" />
+                        <MenuItem value={2} primaryText="Every Night" />
+                        <MenuItem value={3} primaryText="Weeknights" />
+                        <MenuItem value={4} primaryText="Weekends" />
+                        <MenuItem value={5} primaryText="Weekly" />
+                      </DropDownMenu>
+                      <SearchBar
+                        onChange={() => console.log('onChange')}
+                        onRequestSearch={() => console.log('onRequestSearch')}
+                        style={{
+                          margin: '0 auto',
+                          maxWidth: 800
+                        }}
+                      />
                     </div>
                   </div>
                   <div className='form-group row'>
@@ -219,6 +278,7 @@ export class Carousel extends React.Component {
    render() {
       return (
          <div className='container'>
+           <TableExampleSimple />
            <div className='row'>
               <div className='col-md-2 col-md-offset-5'>
                   <h1>Star Wars</h1>

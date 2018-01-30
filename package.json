@@ -14,8 +14,8 @@
     "mongodb": "^2.2.29",
     "body-parser": "^1.17.2",
     "q": "^1.5.0",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "react-router-dom": "^4.1.1",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
@@ -30,10 +30,16 @@
     "gulp-sourcemaps": "2.6.0",
     "jshint": "2.9.5",
     "jest": "22.0.3",
+    "graphql": "0.12.3",
+
+    "material-design-icons": "3.0.1",
+
     "material-ui": "0.20.0",
-    "graphql": "0.12.3"
+    "material-ui-search-bar": "0.4.1",
+    "material-auto-rotating-carousel": "1.7.0",
+    "materialui-pagination": "0.0.6"
   },
   "engines": {
-    "node": "8.9.3"
+    "node": "8.9.4"
   }
 }

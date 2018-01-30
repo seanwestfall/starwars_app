@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './app.jsx';
-import {Search,Carousel,Favorites} from './app.jsx';
+//import { Search, Carousel, Favorites } from './app.jsx';
 import { HashRouter, BrowserRouter, Switch, Link, Route } from 'react-router-dom';
 
 ReactDOM.render((
