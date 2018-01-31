@@ -88,9 +88,9 @@ app.post('/saveNotes', function (req, res) {
 MongoClient.connect(url, function(err, db) {
   if (err) throw err;
 
-  mongoDb = db; // save open db to global object
+  mongoDb = db.db("mydb"); // save open db to global object
 
-  db.createCollection("favorites", function(err, res) {
+  mongoDb.createCollection("favorites", function(err, res) {
      if (err) throw err;
      //db.close();
   });
