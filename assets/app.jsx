@@ -2,13 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter, BrowserRouter, Switch, Link, Route } from 'react-router-dom';
 
-import TableExampleSimple from './sample_table.jsx'
+//import TableExampleSimple from './sample_table.jsx'
 
 import SearchBar from 'material-ui-search-bar'
 import AppBar from 'material-ui/AppBar';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import Slider from 'material-ui/Slider';
 import FontIcon from 'material-ui/FontIcon';
+import IconButton from 'material-ui/IconButton';
 
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -23,57 +24,136 @@ const styles = {
     marginBottom: 12,
     fontWeight: 400,
   },
+  tabLink : {
+    display:"flex",
+    alignItems:"center",
+    justifyContent:"center"
+  }
 };
 
-const TabsExampleIconText = () => (
-  <Tabs>
-    <Tab
-      icon={<FontIcon className="material-icons">search</FontIcon>}
-      label="SEARCH"
-    />
-    <Tab
-      icon={<FontIcon className="material-icons">view_carousel</FontIcon>}
-      label="CAROUSEL"
-    />
-    <Tab
-      icon={<FontIcon className="material-icons">favorite</FontIcon>}
-      label="FAVORITES"
-    />
-  </Tabs>
-);
+import {
+  Table,
+  TableBody,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn,
+} from 'material-ui/Table';
 
-const Main = () => (
-  <main>
-    <Switch>
-      <Route exact path='/' component={Search}/>
-      <Route path='/carousel' component={Carousel}/>
-      <Route path='/favorites' component={Favorites}/>
-    </Switch>
-  </main>
-)
+class TabsHeader extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    
+    this.state = {
+      value: '/',
+    };
 
-const Header = () => (
-  <header>
-    <nav className='container'>
-      <ul className='nav nav-tabs'>
-        <li className='active'><Link to='/'>Search</Link></li>
-        <li><Link to='/Carousel'>Carousel</Link></li>
-        <li><Link to='/Favorites'>Favorites</Link></li>
-      </ul>
-    </nav>
-  </header>
-)
+    // this.props.tabs = [
+    //   {label: "SEARCH", path: "/"},
+    //   {label: "CAROUSEL", path: "/carousel"},
+    //   {label: "FAVORITES" , path: "/favorites"}
+    // ];
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+  handleChange(e) {
+    //console.log(e);
+    this.setState({
+      value: e,
+    });
+    //this.context.router.history.push(e);
+  }
+  render() {
+      return (
+        // <Tabs
+        //   value={value}
+        //   onChange={this.handleChange}
+        // >
+        // {
+        //   this.props.tabs.map(
+        //     ({label, path})=><Tab key={label} 
+        //                           label={label} 
+        //                           className={classes.tabLink} 
+        //                           component={Link} 
+        //                           to={path} />
+        //   )
+        // }
+        // </Tabs>
+        <div></div>
+      );
+  }
+}
+
+// <Tab
+//             icon={<FontIcon className="material-icons">search</FontIcon>}  
+//             label="SEARCH" 
+//             value="/"
+//             component={Link} 
+//             to="/" />
+//           <Tab
+//             icon={<FontIcon className="material-icons">view_carousel</FontIcon>}  
+//             label="CAROUSEL" 
+//             value="/carousel"
+//             component={Link}  
+//             to="/carousel" />
+//           <Tab
+//             icon={<FontIcon className="material-icons">favorite</FontIcon>}  
+//             label="FAVORITES"  
+//             value="/favorites"  
+//             component={Link}  
+//             to="/favorites" />
+//         </Tabs>
+
+// const Main = () => (
+//   <main>
+//     <Switch>
+//       <Route exact path='/' component={Search} />
+//       <Route path='/carousel' component={Carousel} />
+//       <Route path='/favorites' component={Favorites} />
+//     </Switch>
+//   </main>
+// )
+
+// const Header = () => (
+//   <header>
+//     <nav className='container'>
+//       <ul className='nav nav-tabs'>
+//         <li className='active'><Link to='/'>Search</Link></li>
+//         <li><Link to='/Carousel'>Carousel</Link></li>
+//         <li><Link to='/Favorites'>Favorites</Link></li>
+//       </ul>
+//     </nav>
+//   </header>
+// )
 
 class App extends React.Component {
    render() {
       return (
         <MuiThemeProvider>
         <div>
-        <AppBar
-          title="StarWars"
-        />
-        <TabsExampleIconText />
-          <Main />
+          <AppBar title="StarWars" />
+          <Tabs>
+          <Tab
+            icon={<FontIcon className="material-icons">search</FontIcon>}  
+            label="SEARCH" 
+            value="/"
+            containerElement={<Link to="/"/>} />
+          <Tab
+            icon={<FontIcon className="material-icons">view_carousel</FontIcon>}  
+            label="CAROUSEL" 
+            value="/carousel"
+            containerElement={<Link to="/carousel"/>} />
+          <Tab
+            icon={<FontIcon className="material-icons">favorite</FontIcon>}  
+            label="FAVORITES"  
+            value="/favorites"  
+            containerElement={<Link to="/favorites"/>} />
+        </Tabs>
+          <Switch>
+            <Route exact path='/' component={Search} />
+            <Route path='/carousel' component={Carousel} />
+            <Route path='/favorites' component={Favorites} />
+          </Switch>
         </div>
         </MuiThemeProvider>
       )
@@ -102,13 +182,16 @@ export class Search extends React.Component {
           keys.unshift(''); // add an empty column for the save button
 
           self.headerProps = keys.map((key) =>
-            <th>{key}</th>
+            <TableHeaderColumn>{key}</TableHeaderColumn>
           );
 
           console.log(data);
 
           self.bodyProps = data.results.map((result, index) =>
-            <tr><td><button type={'submit'} id={index} className={'save btn btn-primary'} onClick={self.saveClick}>{'Save'}</button></td>{Object.keys(result).map((key) => <td>{result[key]}</td>)}</tr>
+            <TableRow>
+              <TableRowColumn><IconButton iconClassName="material-icons">favorite</IconButton></TableRowColumn>
+              {Object.keys(result).map((key) => <TableRowColumn>{result[key]}</TableRowColumn>)}
+            </TableRow>
           );
           console.log(self.bodyProps);
 
@@ -154,13 +237,16 @@ export class Search extends React.Component {
           keys.unshift(''); // add an empty column for the save button
 
           self.headerProps = keys.map((key) =>
-            <th>{key}</th>
+            <TableHeaderColumn>{key}</TableHeaderColumn>
           );
 
           console.log(data);
 
           self.bodyProps = data.results.map((result, index) =>
-            <tr><td><button type={'submit'} id={index} className={'save btn btn-primary'} onClick={self.saveClick}>{'Save'}</button></td>{Object.keys(result).map((key) => <td>{result[key]}</td>)}</tr>
+            <TableRow>
+              <TableRowColumn><FontIcon className="material-icons">favorite</FontIcon></TableRowColumn>
+              {Object.keys(result).map((key) => <TableRowColumn>{result[key]}</TableRowColumn>)}
+            </TableRow>
           );
           console.log(self.bodyProps);
 
@@ -254,19 +340,21 @@ export class Search extends React.Component {
           </div>
           <div className='row'>
               <div className='col-md-12 searchTable' style={{overflowY: "scroll"}}>
-                  <table className='table' id='table'>
-                    <thead>
-                      <tr>
+                <Table>
+                  <TableHeader
+                  displaySelectAll={false}
+                  adjustForCheckbox={false}
+                  >
+                    <TableRow>
                       {this.headerProps}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {this.bodyProps}
-                    </tbody>
-                  </table>
-                  <ul className='pagination' style={{float: 'right'}}>
-                    {this.count}
-                  </ul>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody
+                  displayRowCheckbox={false}
+                  >
+                    {this.bodyProps}
+                  </TableBody>
+                </Table>
               </div>
           </div>
         </div>
@@ -278,7 +366,6 @@ export class Carousel extends React.Component {
    render() {
       return (
          <div className='container'>
-           <TableExampleSimple />
            <div className='row'>
               <div className='col-md-2 col-md-offset-5'>
                   <h1>Star Wars</h1>
