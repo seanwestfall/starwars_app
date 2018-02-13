@@ -1,13 +1,13 @@
-var express = require('express');
-var Q = require('q');
-var bodyParser = require('body-parser');
-var MongoClient = require('mongodb').MongoClient;
-var app = express();
+const express = require('express');
+const Q = require('q');
+const bodyParser = require('body-parser');
+const MongoClient = require('mongodb').MongoClient;
+const app = express();
 
-var port = process.env.PORT || 8080;
-var url = "mongodb://localhost:27017/mydb";
+const port = process.env.PORT || 8080;
+const url = "mongodb://localhost:27017/mydb";
 
-var ObjectId = require('mongodb').ObjectID;
+const ObjectId = require('mongodb').ObjectID;
 var mongoDb; // global mongoDb variable
 
 // set assets folder
