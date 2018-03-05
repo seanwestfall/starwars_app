@@ -7,6 +7,8 @@ const app = express();
 const port = process.env.PORT || 8080;
 const url = "mongodb://localhost:27017/mydb";
 
+const mode   = process.env.NODE_ENV; // PROD or DEVEL
+
 const ObjectId = require('mongodb').ObjectID;
 var mongoDb; // global mongoDb variable
 
