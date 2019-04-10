@@ -1,0 +1,5 @@
+warning gulp > vinyl-fs > graceful-fs@3.0.11: please upgrade to graceful-fs 4 for compatibility with current and future versions of Node.js
+warning gulp > vinyl-fs > glob-stream > minimatch@2.0.10: Please update to minimatch 3.0.2 or higher to avoid a RegExp DoS issue
+warning gulp > vinyl-fs > glob-watcher > gaze > globule > minimatch@0.2.14: Please update to minimatch 3.0.2 or higher to avoid a RegExp DoS issue
+warning gulp > vinyl-fs > glob-watcher > gaze > globule > glob > graceful-fs@1.2.3: please upgrade to graceful-fs 4 for compatibility with current and future versions of Node.js
+warning babel-preset-es2015@6.24.1: 🙌  Thanks for using Babel: we recommend using babel-preset-env now: please read babeljs.io/env to update!
